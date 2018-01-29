@@ -1,0 +1,394 @@
+package CardGame;
+
+import java.awt.Color;
+import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+
+/**
+ * <pre>
+ * File         AddCity.java
+ * Project      CitiesGUI Database
+ * Description  A class for a add city dialog to add a new city to the cities 
+ *              database
+ * Platform     jdk 1.6.0_14; NetBeans IDE 6.8; Windows 8
+ * Course       CS 143, SCC
+ * Hours        1 hours
+ * Created on   Jan 29th 2017
+ </pre>
+ *
+ * @author:	siyu.pan
+ */
+
+public class EditPlayer extends javax.swing.JDialog {
+    /**
+     * The player object of the new player
+     */
+    Player newPlayer;
+    /**
+     * Default contructor of EditPlayer.Creates new form 
+     * EditPlayer form centered, with save button as default.
+     * @param parent parent form
+     * @param modal modality
+     * @param playerToEdit the Player object of the selected player
+     */
+    public EditPlayer(java.awt.Frame parent, boolean modal, Player playerToEdit) {
+        super(parent, modal);
+        initComponents();
+        //set buttonAdd as default
+        this.getRootPane().setDefaultButton(saveJButton);
+        //centers the form at start.
+        this.setLocationRelativeTo(null);
+        //set icon
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/CardGame/Poker/Heart1.jpg"));
+
+        nameJTextField.requestFocus();
+        this.setModal(true);
+        this.setAlwaysOnTop(true);
+        
+        nameJTextField.setText(playerToEdit.getName());
+        numberJTextField.setText(String.valueOf(playerToEdit.getNumber()));
+        numberOfSuccessJTextField.setText(String.valueOf(playerToEdit.getNumberOfSuccess()));
+        timeJTextField.setText(String.valueOf(playerToEdit.getTime()));
+    }
+    
+    /**
+     * Check if the input in the textFields are valid inputs.
+     * <p>
+     * Called by the saveJButton before adding the new player to the database
+     * <br>Uses Methods from the Validation class.
+     * @return true of the inputs are valid, false if not
+     * @see #saveJButton
+     * @see #saveJButton
+     * @see Validation
+     */
+    private boolean checkInput()
+    {
+        if(Validation.isEmpty(nameJTextField.getText()) || 
+           Validation.isEmpty(numberJTextField.getText()) ||
+           Validation.isEmpty(numberOfSuccessJTextField.getText()) ||
+           Validation.isEmpty(timeJTextField.getText()))
+        {
+            //if any of the textfields is empty, hightlight the empty textFields
+            if(Validation.isEmpty(nameJTextField.getText())) 
+                nameJTextField.setBackground(Color.getHSBColor(100, 255, 100));
+            if(Validation.isEmpty(numberJTextField.getText())) 
+                numberJTextField.setBackground(Color.getHSBColor(100, 255, 100));
+            if(Validation.isEmpty(numberOfSuccessJTextField.getText())) 
+                numberOfSuccessJTextField.setBackground(Color.getHSBColor(100, 255, 100));
+            if(Validation.isEmpty(timeJTextField.getText())) 
+                timeJTextField.setBackground(Color.getHSBColor(100, 255, 100));
+          
+            JOptionPane.showMessageDialog(this, "Input can't be empty!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+ 
+        }
+        //if the numebr of game input is negative
+        if(!Validation.isPositiveInteger(numberJTextField.getText())) 
+        {
+            numberJTextField.setBackground(Color.getHSBColor(100, 255, 100));
+            JOptionPane.showMessageDialog(this, "Please enter a positive integer!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        //if the number of success is negative or larger than the total number of game
+        if(!Validation.isPositiveInteger(numberOfSuccessJTextField.getText())
+                ||Integer.parseInt(numberOfSuccessJTextField.getText()) >= Integer.parseInt(numberJTextField.getText())) 
+        {
+            numberOfSuccessJTextField.setBackground(Color.getHSBColor(100, 255, 100));
+            JOptionPane.showMessageDialog(this, "Please enter a valid number!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        //if the time is negative or larger than the time limit
+        if(!Validation.isValidTime(timeJTextField.getText(), CardGameGUI.TIME_LIMIT)) 
+        {
+            timeJTextField.setBackground(Color.getHSBColor(100, 255, 100));
+            JOptionPane.showMessageDialog(this, "Please enter a valid time!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Getter method for the instance vaiable newPlayer.
+     * <p>
+     * Called by the main GUI to get the newPlayer object.
+     * @return Player newPlayer
+     */
+    public Player getNewPlayer() {
+        return newPlayer;
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        displayJPanel = new javax.swing.JPanel();
+        nameJLabel = new javax.swing.JLabel();
+        nameJTextField = new javax.swing.JTextField();
+        nameJLabel1 = new javax.swing.JLabel();
+        numberJTextField = new javax.swing.JTextField();
+        numberOfSuccessJLabel = new javax.swing.JLabel();
+        numberOfSuccessJTextField = new javax.swing.JTextField();
+        timeJLabel = new javax.swing.JLabel();
+        timeJTextField = new javax.swing.JTextField();
+        buttonPanel = new javax.swing.JPanel();
+        saveJButton = new javax.swing.JButton();
+        clearJButton = new javax.swing.JButton();
+        cancelJButton = new javax.swing.JButton();
+        titleJPane = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Edit Player");
+        setAlwaysOnTop(true);
+        setResizable(false);
+
+        displayJPanel.setLayout(new java.awt.GridLayout(4, 2, 5, 5));
+
+        nameJLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        nameJLabel.setText("Name:");
+        displayJPanel.add(nameJLabel);
+        displayJPanel.add(nameJTextField);
+
+        nameJLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        nameJLabel1.setText("Number of game played:");
+        displayJPanel.add(nameJLabel1);
+
+        numberJTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numberJTextFieldActionPerformed(evt);
+            }
+        });
+        displayJPanel.add(numberJTextField);
+
+        numberOfSuccessJLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        numberOfSuccessJLabel.setText("Number of success:");
+        displayJPanel.add(numberOfSuccessJLabel);
+
+        numberOfSuccessJTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numberOfSuccessJTextFieldActionPerformed(evt);
+            }
+        });
+        displayJPanel.add(numberOfSuccessJTextField);
+
+        timeJLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        timeJLabel.setText("Average success time:");
+        displayJPanel.add(timeJLabel);
+        displayJPanel.add(timeJTextField);
+
+        buttonPanel.setLayout(new java.awt.GridLayout(1, 3));
+
+        saveJButton.setBackground(new java.awt.Color(204, 255, 204));
+        saveJButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        saveJButton.setMnemonic('E');
+        saveJButton.setText("Save");
+        saveJButton.setToolTipText("Save player");
+        saveJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveJButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(saveJButton);
+
+        clearJButton.setBackground(new java.awt.Color(204, 255, 204));
+        clearJButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        clearJButton.setMnemonic('E');
+        clearJButton.setText("Clear");
+        clearJButton.setToolTipText("Clear all the fields");
+        clearJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearJButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(clearJButton);
+
+        cancelJButton.setBackground(new java.awt.Color(204, 255, 204));
+        cancelJButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cancelJButton.setMnemonic('E');
+        cancelJButton.setText("Cancel");
+        cancelJButton.setToolTipText("Return to main form");
+        cancelJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelJButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(cancelJButton);
+
+        titleJPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel2.setFont(new java.awt.Font("Malayalam MN", 0, 24)); // NOI18N
+        jLabel2.setText("Edit Player");
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CardGame/title.jpg"))); // NOI18N
+        jLabel3.setText("jLabel3");
+
+        javax.swing.GroupLayout titleJPaneLayout = new javax.swing.GroupLayout(titleJPane);
+        titleJPane.setLayout(titleJPaneLayout);
+        titleJPaneLayout.setHorizontalGroup(
+            titleJPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titleJPaneLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(jLabel2)
+                .addGap(61, 61, 61))
+        );
+        titleJPaneLayout.setVerticalGroup(
+            titleJPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titleJPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(titleJPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleJPane, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(displayJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleJPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(277, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(96, Short.MAX_VALUE)
+                    .addComponent(displayJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(50, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(318, Short.MAX_VALUE)
+                    .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void saveJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveJButtonActionPerformed
+        //set the background color of all the text fields white
+        nameJTextField.setBackground(Color.WHITE);
+        numberJTextField.setBackground(Color.WHITE);
+        numberOfSuccessJTextField.setBackground(Color.WHITE);
+        timeJTextField.setBackground(Color.WHITE);
+        
+        //if all the inputs are valid, create the Player object newPlayer 
+        if(checkInput())
+        {
+            String name = nameJTextField.getText();
+            int number = Integer.parseInt(numberJTextField.getText());
+            int numberOfSuccess = Integer.parseInt(numberOfSuccessJTextField.getText());
+            int time = Integer.parseInt(timeJTextField.getText());
+            newPlayer = new Player(name, number, numberOfSuccess, time);
+            this.dispose();
+        }
+    }//GEN-LAST:event_saveJButtonActionPerformed
+
+    private void numberJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numberJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numberJTextFieldActionPerformed
+
+    private void numberOfSuccessJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numberOfSuccessJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numberOfSuccessJTextFieldActionPerformed
+
+    private void clearJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearJButtonActionPerformed
+        //clear all the text fields
+        nameJTextField.setText("");
+        numberJTextField.setText("");
+        numberOfSuccessJTextField.setText("");
+        timeJTextField.setText("");
+    }//GEN-LAST:event_clearJButtonActionPerformed
+
+    private void cancelJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelJButtonActionPerformed
+        //exit form
+        this.dispose();
+    }//GEN-LAST:event_cancelJButtonActionPerformed
+
+    /**
+     * //@param args the command line arguments
+     */
+    /*public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+/*        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DisplayPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DisplayPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DisplayPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DisplayPlayer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        /*java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                DisplayPlayer dialog = new DisplayPlayer(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }*/
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JButton cancelJButton;
+    private javax.swing.JButton clearJButton;
+    private javax.swing.JPanel displayJPanel;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel nameJLabel;
+    private javax.swing.JLabel nameJLabel1;
+    private javax.swing.JTextField nameJTextField;
+    private javax.swing.JTextField numberJTextField;
+    private javax.swing.JLabel numberOfSuccessJLabel;
+    private javax.swing.JTextField numberOfSuccessJTextField;
+    private javax.swing.JButton saveJButton;
+    private javax.swing.JLabel timeJLabel;
+    private javax.swing.JTextField timeJTextField;
+    private javax.swing.JPanel titleJPane;
+    // End of variables declaration//GEN-END:variables
+}
